@@ -1,9 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const PORT = 3000;
 
+app.use(cors()); // Allow requests from anywhere
 app.use(express.json());
 
 app.post('/submit', (req, res) => {
@@ -24,6 +25,8 @@ app.get('/submissions', (req, res) => {
   res.json(JSON.parse(fs.readFileSync(filePath)));
 });
 
+// Vercel uses process.env.PORT
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running! Visit: http://localhost:${PORT}/submissions`);
+  console.log(`Server running on port ${PORT}`);
 });
