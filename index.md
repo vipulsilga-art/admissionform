@@ -417,17 +417,48 @@
       // 2) Form validation + save
       const form = document.getElementById('admissionForm');
       const successMessage = document.getElementById('successMessage');
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (validateForm()) {
-          const data = getFormData();
-          saveToLocalStorage(data);
-          successMessage.style.display = 'block';
-          form.reset();
-          displayStoredData();
-          setTimeout(() => { successMessage.style.display = 'none'; }, 5000);
-        }
-      });
+ form.addEventListener('submit', function(e) {
+  e.preventDefault(); // Stop the normal form submit
+
+  if (validateForm()) { // Only continue if the form is valid
+    const data = getFormData(); // Collect all the form data
+
+    // Send the data to your server using fetch
+    fetch('http://localhost:3000/submit', { // Change to your server URL
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data) // Convert data to JSON
+    })
+    .then(res => res.json())
+    .then(response => {
+      if (response.success) {
+        successMessage.style.display = 'block'; // Show success
+        form.reset(); // Reset the form
+        setTimeout(() => { successMessage.style.display = 'none'; }, 5000);
+      } else {
+        alert('Submission failed!');
+      }
+    })
+    .catch(err => {
+      alert('Error submitting form!');
+      console.error(err);
+    });
+  }
+});   
+      
+      
+      
+      //form.addEventListener('submit', function(e) {
+      //  e.preventDefault();
+      //  if (validateForm()) {
+      //    const data = getFormData();
+       //   saveToLocalStorage(data);
+       //   successMessage.style.display = 'block';
+       //   form.reset();
+       //   displayStoredData();
+       //   setTimeout(() => { successMessage.style.display = 'none'; }, 5000);
+       // }
+     // });
 
       function validateForm() {
         let isValid = true;
@@ -619,3 +650,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
