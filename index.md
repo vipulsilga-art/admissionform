@@ -424,7 +424,7 @@
     const data = getFormData(); // Collect all the form data
 
     // Send the data to your server using fetch
-    fetch('http://localhost:3000/submit', { // Change to your server URL
+    fetch('http://192.168.1.15:3000/submit', { // Change to your server URL
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data) // Convert data to JSON
@@ -650,4 +650,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
 
